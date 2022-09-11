@@ -6,7 +6,6 @@ use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordTokenRequest;
-use App\Http\Resources\BaseResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,8 +25,7 @@ class UserController extends BaseController
 
     public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
-        $userDetails = $request->validated();
-        $user = $this->userService->createUser($userDetails);
+        $user = $this->userService->createUser($request);
         if ($user) {
             $token = $user->createToken('token')->plainTextToken;
             return $this->sendResponse(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer'],
@@ -69,7 +67,7 @@ class UserController extends BaseController
         return $this->sendResponse(['Reset password token'=>$token],'Reset password token is generated');
     }
 
-    public function resetPasswordToken(ResetPasswordTokenRequest $request)
+    public function resetPassword(ResetPasswordTokenRequest $request)
     {
         $status = $this->userService->resetPassword($request);
 

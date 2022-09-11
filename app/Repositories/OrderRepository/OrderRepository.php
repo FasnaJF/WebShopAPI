@@ -11,4 +11,9 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     {
         $this->model = $order;
     }
+
+    public function create(array $attributes)
+    {
+        return parent::create($attributes);
+    }
 }

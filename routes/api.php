@@ -24,10 +24,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('users')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::post('/register', 'register');
-        Route::post('/login', 'login');
+        Route::post('/login', 'login')->name('login');
         Route::post('/logout', 'logout');
         Route::post('/forgot-password', 'forgotPassword');
-        Route::post('/reset-password', 'resetPasswordToken');
+        Route::post('/reset-password', 'resetPassword');
     });
 });
 

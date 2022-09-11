@@ -7,10 +7,12 @@ use App\Repositories\OrderProductRepository\OrderProductRepositoryInterface;
 class OrderProductService
 {
     private OrderProductRepositoryInterface $OrderProductRepo;
+    private ProductService $productService;
 
-    public function __construct(OrderProductRepositoryInterface $OrderProductRepo)
+    public function __construct(OrderProductRepositoryInterface $OrderProductRepo, ProductService $productService)
     {
         $this->OrderProductRepo = $OrderProductRepo;
+        $this->productService = $productService;
     }
 
     public function getOrderProductById($id)
@@ -20,7 +22,19 @@ class OrderProductService
 
     public function createOrderProduct($data)
     {
-        return $this->OrderProductRepo->create($data);
+        $orderProduct = [];
+        foreach (json_decode($data['products']) as $product) {
+            $productDetails = $this->productService->getProductById($product->id);
+            if (!$productDetails) {
+                return 'Invalid product id: ' . $product->id;
+            }
+
+            $orderProduct['order_id'] = $data['order_id'];
+            $orderProduct['product_id'] = $product->id;
+            $orderProduct['quantity'] = $product->quantity > 0 ? $product->quantity : 1;
+            $this->OrderProductRepo->create($orderProduct);
+        }
+        return true;
     }
 
     public function deleteOrderProduct($id)

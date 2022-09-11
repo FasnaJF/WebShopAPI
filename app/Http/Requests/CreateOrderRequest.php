@@ -18,10 +18,7 @@ class CreateOrderRequest extends BaseRequest
     public function rules()
     {
         return [
-            'order_status_uuid' => ['required', Rule::exists('order_statuses', 'uuid')],
-            'payment_uuid' => ['required', Rule::exists('payments', 'uuid')],
-            'products' => 'required',
-            'address' => 'required|string|json',
+            'products' => 'required|string',
         ];
     }
 }
