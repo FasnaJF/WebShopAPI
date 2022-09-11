@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+
+    web:
+        build:
+            context: ./
+            dockerfile: web.docker
+        volumes:
+            - ./:/var/www
+        ports:
+            - "8081:80"
+        links:
+            - app
+
+    app:
+        build:
+            context: ./
+            dockerfile: app.docker
+        volumes:
+            - ./:/var/www
+        links:
+            - database
+        environment:
+            - "DB_PORT=3306"
+
+    database:
+        image: mysql:8.0
+        container_name: database_webshop
+        restart: unless-stopped
+        volumes:
+            - ./dbdata:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_USER=root"
+            - "MYSQL_ROOT_PASSWORD=password"
+            - "MYSQL_DATABASE=web_shop"
+            - "MYSQL_DB_HOST=database"
+        ports:
+            - "33064:3306"
+
