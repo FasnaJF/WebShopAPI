@@ -14,13 +14,13 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithValidation, SkipsOnFailure
 {
 
-    use Importable,SkipsFailures;
+    use Importable, SkipsFailures;
 
     public function model(array $row)
     {
         return new Product([
-            'product_name'     => $row['productname'],
-            'price'    => $row['price'],
+            'product_name' => $row['productname'],
+            'price' => $row['price'],
         ]);
     }
 
@@ -32,8 +32,8 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithV
     public function rules(): array
     {
         return [
-            'productname' =>'required',
-            'price' =>'required',
+            'productname' => 'required',
+            'price' => 'required',
         ];
     }
 

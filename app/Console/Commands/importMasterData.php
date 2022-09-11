@@ -37,10 +37,10 @@ class importMasterData extends Command
         $this->output->success('Import completed. See Log for unsuccessful entries.');
 
         foreach ($import->failures() as $failure) {
-            $fail_count ++;
+            $fail_count++;
             Log::info($failure);
         }
-        Log::info('Number of row(s) failed for customer import is: '.$fail_count);
+        Log::info('Number of row(s) failed for customer import is: ' . $fail_count);
 
         $fail_count = 0;
         $this->output->title('Starting products import');
