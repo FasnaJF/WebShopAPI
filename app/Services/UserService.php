@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\UserRepository\UserRepositoryInterface;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class UserService
 {
@@ -45,6 +47,19 @@ class UserService
     public function getAllUsers()
     {
         return $this->userRepo->getAll();
+    }
+
+    public function resetPassword($request)
+    {
+        return Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ]);
+                $user->save();
+            }
+        );
     }
 
 }

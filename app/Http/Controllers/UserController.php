@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetPasswordTokenRequest;
+use App\Http\Resources\BaseResource;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Laravel\Sanctum\PersonalAccessToken;
 
 
@@ -52,6 +57,27 @@ class UserController extends BaseController
         $token->delete();
         return $this->sendResponse('Success',
             'You have successfully logged out and the token was successfully deleted');
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        $user = $this->userService->getUserByEmail($request->email);
+        if (!$user) {
+            return $this->resourceNotFound('Invalid email');
+        }
+        $token = Password::createToken($user);
+        return $this->sendResponse(['Reset password token'=>$token],'Reset password token is generated');
+    }
+
+    public function resetPasswordToken(ResetPasswordTokenRequest $request)
+    {
+        $status = $this->userService->resetPassword($request);
+
+        if ($status == Password::PASSWORD_RESET) {
+            return $this->sendResponse('Success', 'Password has been successfully updated');
+        } else {
+            return $this->sendError('Error','Invalid or expired token',422);
+        }
     }
 
 }

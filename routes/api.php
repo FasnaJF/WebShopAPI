@@ -27,14 +27,7 @@ Route::prefix('users')->group(function () {
         Route::post('/login', 'login');
         Route::post('/logout', 'logout');
         Route::post('/forgot-password', 'forgotPassword');
-        Route::post('/reset-password-token', 'resetPasswordToken');
-
-        Route::middleware(['auth:sanctum'])->group(function () {
-            Route::get('', 'getUser');
-            Route::get('/orders', 'getUserOrders');
-            Route::put('/edit', 'updateUser');
-            Route::delete('', 'destroy');
-        });
+        Route::post('/reset-password', 'resetPasswordToken');
     });
 });
 
