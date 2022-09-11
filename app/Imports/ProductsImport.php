@@ -15,11 +15,7 @@ class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithV
 {
 
     use Importable,SkipsFailures;
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+
     public function model(array $row)
     {
         return new Product([
