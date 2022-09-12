@@ -8,4 +8,6 @@ docker exec -ti webshopapi_app_1 php artisan config:cache
 
 docker exec -ti webshopapi_app_1 php artisan migrate
 
+docker exec -ti webshopapi_app_1 php artisan migrate --env=testing
+
 docker exec -ti webshopapi_app_1 php artisan import:data

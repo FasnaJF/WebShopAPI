@@ -6,7 +6,7 @@ How To Set up Web Shop API Project
    `docker-compose up -d --build`
 
 3. Run following command to run migration and import data
-   `bash import.sh`
+   `bash setup.sh`
 
 4. Postman Documentation
 

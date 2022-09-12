@@ -12,6 +12,7 @@ use App\Services\OrderProductService;
 use App\Services\OrderService;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends BaseController
 {
@@ -63,7 +64,11 @@ class OrderController extends BaseController
     {
         $orderDetails = $request->validated();
         $orderDetails['order_id'] = $request->id;
-        $orderStatus = $this->orderService->getOrderById($request->id)['paid'];
+        $order = $this->orderService->getOrderById($request->id);
+        if ($order->user_id !== Auth::id()) {
+            return $this->sendError('Denied', 'You are not authorized to update this order', 403);
+        }
+        $orderStatus = $order['paid'];
 
         if ($orderStatus !== Order::STATUS_PENDING) {
             return $this->sendError('Denied', 'You cannot edit a order which is processed already', 500);

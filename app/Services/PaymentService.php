@@ -10,13 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class PaymentService
 {
     private UserService $userService;
+    private OrderService $orderService;
     private OrderProductService $orderProductService;
 
     public function __construct(
         UserService $userService,
+        OrderService $orderService,
         OrderProductService $orderProductService
     ) {
         $this->userService = $userService;
+        $this->orderService = $orderService;
         $this->orderProductService = $orderProductService;
     }
 
@@ -24,11 +27,15 @@ class PaymentService
     {
         $order_id = $data['id'];
         $user = $this->userService->getUserById(Auth::id());
+        $order = $this->orderService->getOrderById($order_id);
+        if ($user->id !== $order->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
         $amount = $this->orderProductService->getOrderAmount($order_id);
 
         $paymentRequestBody = [
             'json' => [
-                'order_id' => (int) $order_id,
+                'order_id' => (int)$order_id,
                 'customer_email' => $user->email,
                 'value' => $amount,
             ],
