@@ -20,19 +20,14 @@ class OrderProductService
         return $this->OrderProductRepo->getById($id);
     }
 
-    public function createOrderProduct($data)
+    public function addOrderProducts($data)
     {
         $orderProduct = [];
         foreach (json_decode($data['products']) as $product) {
-            $productDetails = $this->productService->getProductById($product->id);
-            if (!$productDetails) {
-                return 'Invalid product id: ' . $product->id;
-            }
-
             $orderProduct['order_id'] = $data['order_id'];
             $orderProduct['product_id'] = $product->id;
             $orderProduct['quantity'] = $product->quantity > 0 ? $product->quantity : 1;
-            $this->OrderProductRepo->create($orderProduct);
+            $this->createOrderProduct($orderProduct);
         }
         return true;
     }
@@ -46,5 +41,25 @@ class OrderProductService
     {
         return $this->OrderProductRepo->updateById($id, $data);
     }
+
+    public function addOrderProduct($data)
+    {
+        $orderProduct = $this->OrderProductRepo->getByOrderDetails($data);
+        if ($orderProduct) {
+            return $this->updateOrderProduct($orderProduct->id, ['quantity' => ($orderProduct->quantity) + 1]);
+        }
+        $data['quantity'] = 1;
+        return $this->createOrderProduct($data);
+    }
+
+    public function createOrderProduct($data)
+    {
+        $productDetails = $this->productService->getProductById($data['product_id']);
+        if (!$productDetails) {
+            return false;
+        }
+        return $this->OrderProductRepo->create($data);
+    }
+
 
 }

@@ -32,7 +32,7 @@ class OrderService
         $order =  $this->orderRepo->create($params);
         if($order){
             $data['order_id'] = $order->id;
-            $this->orderProductService->createOrderProduct($data);
+            $this->orderProductService->addOrderProducts($data);
             return  $order;
         }
 
