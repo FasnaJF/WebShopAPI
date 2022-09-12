@@ -11,3 +11,7 @@ How To Set up Web Shop API Project
 4. Postman Documentation
 
    https://documenter.getpostman.com/view/8020564/2s7YYr6ix2 
+   
+5. To run the test cases
+
+   `bash test.sh`	
