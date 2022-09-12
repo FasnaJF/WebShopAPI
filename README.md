@@ -1,6 +1,6 @@
 How To Set up Web Shop API Project
 
-1. copy the .env.example to .env file
+1. copy the `.env.example` to `.env` file
 
 2. Run the following in root of the project directory
 
