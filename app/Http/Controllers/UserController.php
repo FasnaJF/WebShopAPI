@@ -66,7 +66,7 @@ class UserController extends BaseController
     {
         $user = $this->userService->getUserByEmail($request->email);
         if (! $user) {
-            return $this->resourceNotFound('Invalid email');
+            return $this->sendError('Invalid email', '', 500);
         }
         $token = Password::createToken($user);
         return $this->sendResponse(['Reset password token' => $token], 'Reset password token is generated');

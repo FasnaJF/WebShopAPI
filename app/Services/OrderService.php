@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 class OrderService
 {
     private OrderRepositoryInterface $orderRepo;
-    private ProductService $productService;
     private OrderProductService $orderProductService;
 
     public function __construct(OrderRepositoryInterface $orderRepo, OrderProductService $orderProductService)
