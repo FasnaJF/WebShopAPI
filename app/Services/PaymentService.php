@@ -45,22 +45,21 @@ class PaymentService
         } catch (BadResponseException $e) {
             $response = $e->getResponse();
             $data = json_decode($response->getBody());
-            if($data->message == config('payment.super_pay.service_unavailable')) {
+            if ($data->message == config('payment.super_pay.service_unavailable')) {
                 return 'Some internal error. Please try again';
             }
-                return $response->getBody();
+            return $response->getBody();
         } catch (GuzzleException $e) {
             $response = $e->getResponse();
             return $response->getBody();
         }
 
         $data = json_decode($response->getBody());
-        if($data->message == config('payment.super_pay.insufficient_fund')){
+        if ($data->message == config('payment.super_pay.insufficient_fund')) {
             return 'Insufficient balance. Please recharge your account and try again.';
         }
-        if($data->message == config('payment.super_pay.payment_successful')){
-
-            $this->orderService->updateOrder($order_id,['paid'=>1]);
+        if ($data->message == config('payment.super_pay.payment_successful')) {
+            $this->orderService->updateOrder($order_id, ['paid' => 1]);
             return 'Payment Successful, thanks for purchasing.';
         }
         return $response->getBody();

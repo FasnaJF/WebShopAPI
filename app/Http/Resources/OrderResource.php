@@ -12,6 +12,7 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'paid' => $this->paid,
+            'customer_id' => $this->user_id,
             'products' => $this->orderProducts,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

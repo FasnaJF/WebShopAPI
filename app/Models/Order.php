@@ -22,9 +22,10 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'paid',
-        ];
+    ];
 
-    public function orderProducts(){
-        return $this->hasMany(OrderProduct::class,'order_id','id')->select('product_id','quantity');
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class, 'order_id', 'id')->select('product_id', 'quantity');
     }
 }

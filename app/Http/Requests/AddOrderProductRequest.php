@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
+use function auth;
 
 class AddOrderProductRequest extends BaseRequest
 {
     public function authorize()
     {
-        if (\auth()->user()) {
+        if (auth()->user()) {
             return true;
         } else {
             return $this->unauthorizedError();

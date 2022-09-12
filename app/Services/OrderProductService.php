@@ -32,14 +32,18 @@ class OrderProductService
         return true;
     }
 
+    public function createOrderProduct($data)
+    {
+        $productDetails = $this->productService->getProductById($data['product_id']);
+        if (!$productDetails) {
+            return false;
+        }
+        return $this->OrderProductRepo->create($data);
+    }
+
     public function deleteOrderProduct($id)
     {
         return $this->OrderProductRepo->deleteById($id);
-    }
-
-    public function updateOrderProduct($id, $data)
-    {
-        return $this->OrderProductRepo->updateById($id, $data);
     }
 
     public function addOrderProduct($data)
@@ -52,15 +56,10 @@ class OrderProductService
         return $this->createOrderProduct($data);
     }
 
-    public function createOrderProduct($data)
+    public function updateOrderProduct($id, $data)
     {
-        $productDetails = $this->productService->getProductById($data['product_id']);
-        if (!$productDetails) {
-            return false;
-        }
-        return $this->OrderProductRepo->create($data);
+        return $this->OrderProductRepo->updateById($id, $data);
     }
-
 
     public function getOrderAmount($orderId)
     {
@@ -69,7 +68,7 @@ class OrderProductService
 
         foreach ($orderProducts as $orderProduct) {
             $product = $this->productService->getProductById($orderProduct->product_id);
-            $value += $product->price*$orderProduct->quantity;
+            $value += $product->price * $orderProduct->quantity;
         }
         return $value;
     }

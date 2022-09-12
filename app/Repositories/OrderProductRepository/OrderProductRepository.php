@@ -14,16 +14,20 @@ class OrderProductRepository extends BaseRepository implements OrderProductRepos
 
     public function getByOrderDetails($data)
     {
-        $orderProduct =  $this->model->where([['order_id',$data['order_id']],['product_id',$data['product_id']]])->first();
-        if(!$orderProduct){
+        $orderProduct = $this->model->where([
+            ['order_id', $data['order_id']],
+            ['product_id', $data['product_id']]
+        ])->first();
+        if (!$orderProduct) {
             return false;
         }
         return $orderProduct;
     }
 
-    public function getByOrderId($orderId){
-        $orderProducts =  $this->model->where('order_id',$orderId)->get();
-        if(!$orderProducts){
+    public function getByOrderId($orderId)
+    {
+        $orderProducts = $this->model->where('order_id', $orderId)->get();
+        if (!$orderProducts) {
             return false;
         }
         return $orderProducts;

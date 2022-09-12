@@ -7,6 +7,7 @@ use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Services\OrderProductService;
 use App\Services\OrderService;
 use App\Services\PaymentService;
@@ -27,6 +28,7 @@ class OrderController extends BaseController
         $this->orderService = $orderService;
         $this->orderProductService = $orderProductService;
         $this->paymentService = $paymentService;
+        $this->authorizeResource(Order::class);
     }
 
     public function index()
@@ -42,24 +44,20 @@ class OrderController extends BaseController
         return new OrderResource($order);
     }
 
-    public function show($id)
+    public function show(Order $order)
     {
-        $order = $this->orderService->getOrderById($id);
-        if (!$order) {
-            return $this->sendError('Not found', 'Order not found', 404);
-        }
         return new OrderResource($order);
     }
 
-    public function update(UpdateOrderRequest $request, $id)
+    public function update(UpdateOrderRequest $request, Order $order)
     {
         $orderDetails = $request->validated();
-        return $this->orderService->updateOrder($id, $orderDetails);
+        return $this->orderService->updateOrder($order->id, $orderDetails);
     }
 
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        return $this->orderService->deleteOrder($id);
+        return $this->orderService->deleteOrder($order->id);
     }
 
     public function addProduct(AddOrderProductRequest $request)

@@ -52,7 +52,6 @@ abstract class BaseRepository
         return $this->model->find($id)->delete();
     }
 
-
     public function getModel(): Model
     {
         return $this->model;

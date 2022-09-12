@@ -20,7 +20,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
     public function updateById($id, array $params)
     {
         $order = $this->getById($id);
-        if(!$order){
+        if (!$order) {
             return 'Order not found';
         }
         return parent::updateById($id, $params);

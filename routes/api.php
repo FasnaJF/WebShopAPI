@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +14,6 @@ use App\Http\Controllers\OrderController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-
 Route::prefix('users')->group(function () {
     Route::controller(UserController::class)->group(function () {
         Route::post('/register', 'register');
@@ -34,8 +27,8 @@ Route::prefix('users')->group(function () {
 Route::controller(OrderController::class)->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::resource('orders', OrderController::class);
-        Route::post('orders/{id}/add','addProduct');
-        Route::post('orders/{id}/pay','makePayment');
+        Route::post('orders/{id}/add', 'addProduct');
+        Route::post('orders/{id}/pay', 'makePayment');
     });
 });
 

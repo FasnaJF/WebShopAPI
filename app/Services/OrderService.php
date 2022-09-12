@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Order;
-use App\Repositories\OrderProductRepository\OrderProductRepositoryInterface;
 use App\Repositories\OrderRepository\OrderRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,18 +21,17 @@ class OrderService
     public function getOrderById($id)
     {
         return $this->orderRepo->getById($id);
-
     }
 
     public function createOrder($data)
     {
         $params['user_id'] = Auth::user()->id;
         $params['paid'] = Order::STATUS_PENDING;
-        $order =  $this->orderRepo->create($params);
-        if($order){
+        $order = $this->orderRepo->create($params);
+        if ($order) {
             $data['order_id'] = $order->id;
             $this->orderProductService->addOrderProducts($data);
-            return  $order;
+            return $order;
         }
 
         return 'Order creation failed';
@@ -49,7 +47,7 @@ class OrderService
         return $this->orderRepo->updateById($id, $data);
     }
 
-    public function getAllOrders($request=null)
+    public function getAllOrders($request = null)
     {
         return $this->orderRepo->getAll($request);
     }

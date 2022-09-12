@@ -7,9 +7,9 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordTokenRequest;
 use App\Services\UserService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Laravel\Sanctum\PersonalAccessToken;
 
@@ -23,7 +23,7 @@ class UserController extends BaseController
         $this->userService = $userService;
     }
 
-    public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
+    public function register(RegisterRequest $request): JsonResponse
     {
         $user = $this->userService->createUser($request);
         if ($user) {
@@ -64,7 +64,7 @@ class UserController extends BaseController
             return $this->resourceNotFound('Invalid email');
         }
         $token = Password::createToken($user);
-        return $this->sendResponse(['Reset password token'=>$token],'Reset password token is generated');
+        return $this->sendResponse(['Reset password token' => $token], 'Reset password token is generated');
     }
 
     public function resetPassword(ResetPasswordTokenRequest $request)
@@ -74,7 +74,7 @@ class UserController extends BaseController
         if ($status == Password::PASSWORD_RESET) {
             return $this->sendResponse('Success', 'Password has been successfully updated');
         } else {
-            return $this->sendError('Error','Invalid or expired token',422);
+            return $this->sendError('Error', 'Invalid or expired token', 422);
         }
     }
 
