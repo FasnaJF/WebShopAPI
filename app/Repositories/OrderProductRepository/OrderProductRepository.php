@@ -20,4 +20,13 @@ class OrderProductRepository extends BaseRepository implements OrderProductRepos
         }
         return $orderProduct;
     }
+
+    public function getByOrderId($orderId){
+        $orderProducts =  $this->model->where('order_id',$orderId)->get();
+        if(!$orderProducts){
+            return false;
+        }
+        return $orderProducts;
+    }
+
 }

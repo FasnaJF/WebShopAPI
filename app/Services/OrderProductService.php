@@ -62,4 +62,17 @@ class OrderProductService
     }
 
 
+    public function getOrderAmount($orderId)
+    {
+        $value = 0;
+        $orderProducts = $this->OrderProductRepo->getByOrderId($orderId);
+
+        foreach ($orderProducts as $orderProduct) {
+            $product = $this->productService->getProductById($orderProduct->product_id);
+            $value += $product->price*$orderProduct->quantity;
+        }
+        return $value;
+    }
+
+
 }

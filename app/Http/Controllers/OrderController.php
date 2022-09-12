@@ -9,17 +9,24 @@ use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderProductService;
 use App\Services\OrderService;
+use App\Services\PaymentService;
+use Illuminate\Http\Request;
 
 class OrderController extends BaseController
 {
 
     private OrderService $orderService;
     private OrderProductService $orderProductService;
+    private PaymentService $paymentService;
 
-    public function __construct(OrderService $orderService, OrderProductService $orderProductService)
-    {
+    public function __construct(
+        OrderService $orderService,
+        OrderProductService $orderProductService,
+        PaymentService $paymentService
+    ) {
         $this->orderService = $orderService;
         $this->orderProductService = $orderProductService;
+        $this->paymentService = $paymentService;
     }
 
     public function index()
@@ -72,5 +79,10 @@ class OrderController extends BaseController
         }
 
         return $this->sendError('Not found', 'Product not found', 404);
+    }
+
+    public function makePayment(Request $request)
+    {
+        return $this->paymentService->createPayment($request);
     }
 }
