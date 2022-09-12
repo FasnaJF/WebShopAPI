@@ -24,7 +24,8 @@ class UserController extends BaseController
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        $user = $this->userService->createUser($request);
+        $userDetails = $request->validated();
+        $user = $this->userService->createUser($userDetails);
         if ($user) {
             $token = $user->createToken('token')->plainTextToken;
             return $this->sendResponse(

@@ -17,7 +17,14 @@ class CreateOrderRequest extends BaseRequest
     public function rules()
     {
         return [
-            'products' => 'required|string',
+            'products' => 'required|json',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'products' => json_encode($this->products),
+        ]);
     }
 }
