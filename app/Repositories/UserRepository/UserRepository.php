@@ -25,5 +25,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $attributes['registered_since'] = Carbon::now();
         return parent::create($attributes);
     }
-
 }

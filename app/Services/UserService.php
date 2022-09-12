@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Http\Requests\ResetPasswordTokenRequest;
 use App\Repositories\UserRepository\UserRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
@@ -57,11 +56,10 @@ class UserService
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => Hash::make($password),
                 ]);
                 $user->save();
             }
         );
     }
-
 }

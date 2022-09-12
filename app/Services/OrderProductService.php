@@ -35,7 +35,7 @@ class OrderProductService
     public function createOrderProduct($data)
     {
         $productDetails = $this->productService->getProductById($data['product_id']);
-        if (!$productDetails) {
+        if (! $productDetails) {
             return false;
         }
         return $this->OrderProductRepo->create($data);
@@ -72,6 +72,4 @@ class OrderProductService
         }
         return $value;
     }
-
-
 }

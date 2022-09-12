@@ -31,4 +31,3 @@ Route::controller(OrderController::class)->group(function () {
         Route::post('orders/{id}/pay', 'makePayment');
     });
 });
-

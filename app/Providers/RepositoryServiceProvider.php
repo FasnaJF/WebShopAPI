@@ -21,7 +21,7 @@ class RepositoryServiceProvider extends ServiceProvider
         UserRepositoryInterface::class => UserRepository::class,
         ProductRepositoryInterface::class => ProductRepository::class,
         OrderRepositoryInterface::class => OrderRepository::class,
-        OrderProductRepositoryInterface::class => OrderProductRepository::class
+        OrderProductRepositoryInterface::class => OrderProductRepository::class,
     ];
 
     public function register()
@@ -41,6 +41,5 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
     }
 }

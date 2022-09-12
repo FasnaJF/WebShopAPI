@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 class ForgotPasswordRequest extends BaseRequest
 {
-
     public function authorize()
     {
         return true;

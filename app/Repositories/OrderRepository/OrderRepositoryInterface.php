@@ -6,5 +6,4 @@ use App\Repositories\BaseRepositoryInterface;
 
 interface OrderRepositoryInterface extends BaseRepositoryInterface
 {
-
 }

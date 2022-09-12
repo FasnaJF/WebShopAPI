@@ -52,5 +52,4 @@ class OrderService
     {
         return $this->orderRepo->getAll($request);
     }
-
 }

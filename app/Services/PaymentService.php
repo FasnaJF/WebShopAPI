@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-
-use App\Models\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -11,20 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentService
 {
-    private OrderService $orderService;
     private UserService $userService;
     private OrderProductService $orderProductService;
 
     public function __construct(
-        OrderService $orderService,
         UserService $userService,
         OrderProductService $orderProductService
     ) {
-        $this->orderService = $orderService;
         $this->userService = $userService;
         $this->orderProductService = $orderProductService;
     }
-
 
     public function createPayment($data)
     {
@@ -34,11 +28,17 @@ class PaymentService
 
         $paymentRequestBody = [
             'json' => [
-                'order_id' => (int)$order_id,
+                'order_id' => (int) $order_id,
                 'customer_email' => $user->email,
-                'value' => $amount
-            ]
+                'value' => $amount,
+            ],
         ];
+
+        return $this->paymentRequest($paymentRequestBody);
+    }
+
+    private function paymentRequest($paymentRequestBody): \Psr\Http\Message\StreamInterface|string
+    {
         $client = new Client();
         $paymentService = config('payment.super_pay.base_url');
         try {
@@ -55,16 +55,6 @@ class PaymentService
             return $response->getBody();
         }
 
-        $data = json_decode($response->getBody());
-        if ($data->message === config('payment.super_pay.insufficient_fund')) {
-            return 'Insufficient balance. Please recharge your account and try again.';
-        }
-        if ($data->message === config('payment.super_pay.payment_successful')) {
-            $this->orderService->updateOrder($order_id, ['paid' => Order::STATUS_PAID]);
-            return 'Payment Successful, thanks for purchasing.';
-        }
         return $response->getBody();
     }
-
-
 }

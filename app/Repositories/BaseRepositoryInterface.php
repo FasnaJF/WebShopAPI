@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-
 
 interface BaseRepositoryInterface
 {
@@ -23,5 +21,4 @@ interface BaseRepositoryInterface
     public function getModel(): Model;
 
     public function withTrashed();
-
 }

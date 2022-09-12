@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 class ResetPasswordTokenRequest extends BaseRequest
 {
-
     public function authorize()
     {
         return true;

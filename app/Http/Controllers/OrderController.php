@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 
 class OrderController extends BaseController
 {
-
     private OrderService $orderService;
     private OrderProductService $orderProductService;
     private PaymentService $paymentService;

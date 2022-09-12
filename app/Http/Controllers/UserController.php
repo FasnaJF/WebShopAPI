@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use Laravel\Sanctum\PersonalAccessToken;
 
-
 class UserController extends BaseController
 {
     private $userService;
@@ -28,23 +27,27 @@ class UserController extends BaseController
         $user = $this->userService->createUser($request);
         if ($user) {
             $token = $user->createToken('token')->plainTextToken;
-            return $this->sendResponse(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer'],
-                'User register successfully.');
+            return $this->sendResponse(
+                ['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer'],
+                'User register successfully.'
+            );
         }
         return $this->sendError('User Registration failed', '', 500);
     }
 
     public function login(LoginRequest $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             return $this->sendError('Unauthorized', 'Invalid Credentials', 401);
         }
 
         $user = $this->userService->getUserByEmail($request['email']);
         if ($user) {
             $token = $user->createToken('token')->plainTextToken;
-            return $this->sendResponse(['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer'],
-                'Login was successful');
+            return $this->sendResponse(
+                ['data' => $user, 'access_token' => $token, 'token_type' => 'Bearer'],
+                'Login was successful'
+            );
         }
         return $this->sendError('User Login failed', '', 500);
     }
@@ -53,14 +56,16 @@ class UserController extends BaseController
     {
         $token = PersonalAccessToken::findToken($request->bearerToken());
         $token->delete();
-        return $this->sendResponse('Success',
-            'You have successfully logged out and the token was successfully deleted');
+        return $this->sendResponse(
+            'Success',
+            'You have successfully logged out and the token was successfully deleted'
+        );
     }
 
     public function forgotPassword(ForgotPasswordRequest $request)
     {
         $user = $this->userService->getUserByEmail($request->email);
-        if (!$user) {
+        if (! $user) {
             return $this->resourceNotFound('Invalid email');
         }
         $token = Password::createToken($user);
@@ -76,5 +81,4 @@ class UserController extends BaseController
         }
         return $this->sendError('Error', 'Invalid or expired token', 422);
     }
-
 }

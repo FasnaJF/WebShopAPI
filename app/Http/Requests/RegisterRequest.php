@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 class RegisterRequest extends BaseRequest
 {
-
     public function authorize()
     {
         return true;
@@ -27,5 +26,4 @@ class RegisterRequest extends BaseRequest
             'phone' => 'required|string|max:255',
         ];
     }
-
 }

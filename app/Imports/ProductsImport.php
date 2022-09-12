@@ -13,7 +13,6 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class ProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, WithValidation, SkipsOnFailure
 {
-
     use Importable, SkipsFailures;
 
     public function model(array $row)

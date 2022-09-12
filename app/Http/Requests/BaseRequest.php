@@ -14,7 +14,7 @@ class BaseRequest extends FormRequest
         throw new HttpResponseException(
             response()->json([
                 'success' => 0,
-                'error' => "Failed Validation",
+                'error' => 'Failed Validation',
                 'errors' => $validator->errors(),
             ], ResponseAlias::HTTP_UNPROCESSABLE_ENTITY)
         );
@@ -36,7 +36,7 @@ class BaseRequest extends FormRequest
         throw new HttpResponseException(
             response()->json([
                 'success' => 0,
-                'error' => "Unauthorized",
+                'error' => 'Unauthorized',
                 'errors' => [],
             ], ResponseAlias::HTTP_UNAUTHORIZED)
         );
