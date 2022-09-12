@@ -71,11 +71,10 @@ class UserController extends BaseController
     {
         $status = $this->userService->resetPassword($request);
 
-        if ($status == Password::PASSWORD_RESET) {
+        if ($status === Password::PASSWORD_RESET) {
             return $this->sendResponse('Success', 'Password has been successfully updated');
-        } else {
-            return $this->sendError('Error', 'Invalid or expired token', 422);
         }
+        return $this->sendError('Error', 'Invalid or expired token', 422);
     }
 
 }

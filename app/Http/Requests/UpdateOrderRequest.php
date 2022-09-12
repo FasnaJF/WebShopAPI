@@ -10,9 +10,8 @@ class UpdateOrderRequest extends BaseRequest
     {
         if (auth()->user()) {
             return true;
-        } else {
-            return $this->unauthorizedError();
         }
+        return $this->unauthorizedError();
     }
 
     public function rules()

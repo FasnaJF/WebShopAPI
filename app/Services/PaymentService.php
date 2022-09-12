@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Models\Order;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -45,7 +46,7 @@ class PaymentService
         } catch (BadResponseException $e) {
             $response = $e->getResponse();
             $data = json_decode($response->getBody());
-            if ($data->message == config('payment.super_pay.service_unavailable')) {
+            if ($data->message === config('payment.super_pay.service_unavailable')) {
                 return 'Some internal error. Please try again';
             }
             return $response->getBody();
@@ -55,11 +56,11 @@ class PaymentService
         }
 
         $data = json_decode($response->getBody());
-        if ($data->message == config('payment.super_pay.insufficient_fund')) {
+        if ($data->message === config('payment.super_pay.insufficient_fund')) {
             return 'Insufficient balance. Please recharge your account and try again.';
         }
-        if ($data->message == config('payment.super_pay.payment_successful')) {
-            $this->orderService->updateOrder($order_id, ['paid' => 1]);
+        if ($data->message === config('payment.super_pay.payment_successful')) {
+            $this->orderService->updateOrder($order_id, ['paid' => Order::STATUS_PAID]);
             return 'Payment Successful, thanks for purchasing.';
         }
         return $response->getBody();

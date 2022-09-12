@@ -66,7 +66,7 @@ class OrderController extends BaseController
         $orderDetails['order_id'] = $request->id;
         $orderStatus = $this->orderService->getOrderById($request->id)['paid'];
 
-        if ($orderStatus != 0) {
+        if ($orderStatus !== Order::STATUS_PENDING) {
             return $this->sendError('Denied', 'You cannot edit a order which is processed already', 500);
         }
 

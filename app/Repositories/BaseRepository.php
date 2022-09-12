@@ -29,7 +29,7 @@ abstract class BaseRepository
 
     public function getAll($sortBy = null)
     {
-        if (isset($sortBy) && !empty($sortBy)) {
+        if (isset($sortBy)) {
             return $this->model->all()->sortBy($sortBy);
         }
         return $this->model->all();

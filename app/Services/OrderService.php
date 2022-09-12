@@ -25,6 +25,7 @@ class OrderService
 
     public function createOrder($data)
     {
+        $params = [];
         $params['user_id'] = Auth::user()->id;
         $params['paid'] = Order::STATUS_PENDING;
         $order = $this->orderRepo->create($params);

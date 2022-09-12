@@ -50,7 +50,7 @@ class OrderProductService
     {
         $orderProduct = $this->OrderProductRepo->getByOrderDetails($data);
         if ($orderProduct) {
-            return $this->updateOrderProduct($orderProduct->id, ['quantity' => ($orderProduct->quantity) + 1]);
+            return $this->updateOrderProduct($orderProduct->id, ['quantity' => $orderProduct->quantity + 1]);
         }
         $data['quantity'] = 1;
         return $this->createOrderProduct($data);
