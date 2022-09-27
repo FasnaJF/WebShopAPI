@@ -23,8 +23,10 @@ class CreateOrderRequest extends BaseRequest
 
     protected function prepareForValidation()
     {
-        $this->merge([
-            'products' => json_encode($this->products),
-        ]);
+        if($this->request->has('products')){
+            $this->merge([
+                'products' => json_encode($this->products),
+            ]);
+        }
     }
 }
